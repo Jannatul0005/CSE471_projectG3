@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <form id="payment-form">
+      <h2>Payment Details</h2>
+      <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" id="Name" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" placeholder="Enter card number" required>
+      </div>
+      <div class="form-group">
+        <label for="card-holder">Card Holder</label>
+        <input type="text" id="card-holder" placeholder="Enter card holder's name" required>
+      </div>
+      <div class="form-group">
+        <label for="expiry">Expiry</label>
+        <input type="text" id="expiry" placeholder="MM / YY" required>
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" placeholder="CVV" required>
+      </div>
+      <h1>Alternative payment options</h1>
+      <div class="card-icons">
+        <label for="card-icons">Card icons</label>
+        <input type="text" id="card-icons" placeholder="Icons required, help me">
+      </div>
+      <button type="submit">Submit Payment</button>
+    </form>
+  </div>
+</body>
+</html>
