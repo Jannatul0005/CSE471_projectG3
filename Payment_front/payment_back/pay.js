@@ -36,9 +36,7 @@ const port = 3000;
 // // Database Name
 // const dbName = 'paymentForm';
 
-// // Nodemailer Transporter Configuration
 // const transporter = nodemailer.createTransport({
-//     // Update with your email service configuration
 //     service: 'Gmail',
 //     auth: {
 //         user: 'your.email@gmail.com',
@@ -54,13 +52,11 @@ const port = 3000;
 //     }
 //     console.log('Connected to MongoDB');
 
-//     const db = client.db(dbName);
+//     const db = client.db(db1);
 
-//     // Define route to handle form submission
 //     app.post('/submit-form', authenticate, (req, res) => {
 //         const formData = req.body;
 
-//         // Insert form data into MongoDB collection
 //         db.collection('payments').insertOne(formData, async (err, result) => {
 //             if (err) {
 //                 console.error('Error inserting form data into MongoDB:', err);
