@@ -44,97 +44,98 @@
     </script>
     <!--End of Tawk.to Script-->
     <style>
-/* Global styles */
-body {
-    font-family: cursive, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-/* Styles for the floating quiz button */
-.quiz-button {
-    position: fixed;
-    top: 50%;
-    left: 20px; /* Adjust left position */
-    background-color: #78e378; /* Deep green color */
-    color: white;
-    border-radius: 50%; /* Rounded button */
-    width: 240px; /* 4 times larger */
-    height: 240px; /* 4 times larger */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 2; /* Ensure it's above other content */
-    transform: translateY(-50%); /* Vertically center */
-}
-
-.quiz-button:hover {
-    background-color: #004d00; /* Darker green on hover */
-}
-
-/* Styles for the quiz modal */
-.quiz-modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4); /* Black overlay */
-}
-
-.quiz-content {
-    background-color: #fefefe;
-    margin: 20% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 10px;
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-h2 {
-    margin-top: 0;
-}
-
-#options button {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-/* Additional styles */
-#question {
-    margin-bottom: 20px;
-}
-
-/* Styles for the blurred background */
-.blurred-background {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 1;
-}
-
-
+        /* Quiz Modal */
+        #quiz-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        #quiz-modal h2 {
+            margin-top: 0;
+        }
+    
+        #quiz-modal button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #87e578;
+            color: #fff;
+            cursor: pointer;
+        }
+    
+        #quiz-modal button:hover {
+            background-color: #45d38a;
+        }
+    
+        #quiz-modal #question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    
+        #quiz-modal #options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        #quiz-modal #options button:hover {
+            background-color: #f2f2f2;
+        }
+    
+        /* Close Button */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    
+        /* Take Quiz Button */
+        #take-quiz-button {
+            display: block;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%; /* Make it round */
+            background-color: #7fd743; /* Green background color */
+            color: rgb(39, 4, 4);
+            font-family: 'Garamond', Serif; /* Specify the desired font */
+            font-size: 38px; /* Adjust font size as needed */
+            text-align: center;
+            line-height: 200px; /* Vertically center text */
+            text-decoration: none; /* Remove underline */
+            position: fixed;
+            top: 50%;
+            left: 95px; /* Adjust left position as needed */
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+    
+        #take-quiz-button:hover {
+            background-color: #144e17; /* Darker green color on hover */
+        }
+    
+        #take-quiz-button:active {
+            background-color: #0d9712; /* Even darker green color on click */
+        }
     </style>
 
 </head>
@@ -339,34 +340,42 @@ h2 {
        <span>Take Quiz</span>
     </div>
 
-<!-- Quiz modal -->
-<div class="quiz-modal" id="quiz-modal">
-    <div class="quiz-content">
-        <span class="close" onclick="closeQuiz()">&times;</span>
-        <h2>Travel Quiz</h2>
-        <div id="question"></div>
-        <div id="options"></div>
-        <button id="submit-btn" onclick="submitAnswer()">Submit</button>
-    </div>
+    <!-- Floating quiz button -->
+</style>
+</head>
+<body>
+
+<!-- Take Quiz Button -->
+<a href="#" id="take-quiz-button" onclick="startQuiz()">Take Quiz!!</a>
+
+<!-- Quiz Modal -->
+<div id="quiz-modal">
+    <span class="close-button" onclick="closeQuiz()">×</span>
+    <h2>Quiz</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+    <button onclick="submitAnswer()">Submit Answer</button>
 </div>
 
-<div class="blurred-background" id="blurred-bg"></div>
-
-
 <script>
- const quizQuestions = [
-    {
-        question: "What is the longest natural sea beach in the world?",
-        options: ["Cox's Bazar", "Kuakata", "St. Martin's Island", "Patenga"],
-        correctAnswer: "Cox's Bazar"
-    },
-    {
-        question: "Which city is known as the 'City of Tea' in Bangladesh?",
-        options: ["Dhaka", "Sylhet", "Chittagong", "Rangpur"],
-        correctAnswer: "Sylhet"
-    },
+    // Unique coupon code generation function
+    function generateCoupon() {
+        return Math.random().toString(36).substring(2, 10).toUpperCase();
+    }
 
-    {
+    // Quiz questions array (add more questions as needed)
+    let quizQuestions = [
+        {
+            question: "What is the longest natural sea beach in the world?",
+            options: ["Cox's Bazar", "Kuakata", "St. Martin's Island", "Patenga"],
+            correctAnswer: "Cox's Bazar"
+        },
+        {
+            question: "Which city is known as the 'City of Tea' in Bangladesh?",
+            options: ["Dhaka", "Sylhet", "Chittagong", "Rangpur"],
+            correctAnswer: "Sylhet"
+        },
+        {
     question: "What is the largest mangrove forest in the world?",
     options: ["Sundarbans", "Tanguar Haor", "Bogra", "Lalmai Hills"],
     correctAnswer: "Sundarbans"
@@ -381,11 +390,7 @@ h2 {
     options: ["Rangamati", "Barisal", "Bagerhat", "Sylhet"],
     correctAnswer: "Rangamati"
 },
-{
-    question: "Which ancient city, known for its archaeological ruins and historical significance, is located in Bangladesh?",
-    options: ["Paharpur", "Pompeii", "Wari-Bateshar", "Mohenjo-Daro"],
-    correctAnswer: "Paharpur"
-},
+
 {
     question: "Which of the following rivers does not flow through Bangladesh?",
     options: ["Ganges", "Meghna", "Jamuna", "Brahmaputra"],
@@ -431,69 +436,112 @@ h2 {
     options: ["Paharpur", "Dinajpur", "Sylhet", "Bogra"],
     correctAnswer: "Paharpur"
 },
-
-
-];
-
-let totalQuestions = quizQuestions.length;
-let correctAnswers = 0;
-let currentQuestion = 0;
-
-function startQuiz() {
-    document.getElementById('quiz-modal').style.display = 'block';
-    showQuestion();
+{
+    question: "What is the largest division by area in Bangladesh?",
+    options: ["Chittagong Division", "Dhaka Division", "Rajshahi Division", "Khulna Division"],
+    correctAnswer: "Chittagong Division"
 }
+        // Add more questions here
+    ];
 
-function closeQuiz() {
-    document.getElementById('quiz-modal').style.display = 'none';
-}
+    // Function to shuffle an array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 
-function showQuestion() {
-    const questionElement = document.getElementById('question');
-    const optionsElement = document.getElementById('options');
-    const currentQuiz = quizQuestions[currentQuestion];
-    questionElement.textContent = currentQuiz.question;
-    optionsElement.innerHTML = '';
-    currentQuiz.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.textContent = option;
-        button.setAttribute('onclick', `selectAnswer(${index})`);
-        optionsElement.appendChild(button);
-    });
-}
+    // Shuffle quiz questions array
+    quizQuestions = shuffleArray(quizQuestions);
 
-function selectAnswer(index) {
-    document.querySelectorAll('#options button').forEach(btn => {
-        btn.style.backgroundColor = ''; // Reset background color of all buttons
-    });
-    const selectedButton = document.querySelectorAll('#options button')[index];
-    selectedButton.style.backgroundColor = '#008000'; // Set background color to green
-}
+    // Initialize variables
+    let totalQuestions = quizQuestions.length;
+    let correctAnswers = 0;
+    let currentQuestion = 0;
 
-function submitAnswer() {
-    const selectedOption = document.querySelector('#options button[style="background-color: rgb(0, 128, 0);"]');
-    if (selectedOption) {
-        const selectedAnswer = selectedOption.textContent;
-        const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
-        if (selectedAnswer === correctAnswer) {
-            correctAnswers++;
-            selectedOption.style.backgroundColor = '#008000'; // Set background color to green
+    // Function to start the quiz
+    function startQuiz() {
+        document.getElementById('quiz-modal').style.display = 'block';
+        showQuestion();
+    }
+
+    // Function to close the quiz
+    function closeQuiz() {
+        document.getElementById('quiz-modal').style.display = 'none';
+    }
+
+    // Function to display a question
+    function showQuestion() {
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const currentQuiz = quizQuestions[currentQuestion];
+        questionElement.textContent = currentQuiz.question;
+
+        // Shuffle options array for current question
+        const shuffledOptions = shuffleArray(currentQuiz.options);
+
+        optionsElement.innerHTML = '';
+        shuffledOptions.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.setAttribute('onclick', `selectAnswer(${index})`);
+            optionsElement.appendChild(button);
+        });
+    }
+
+    // Function to select an answer
+    function selectAnswer(index) {
+        document.querySelectorAll('#options button').forEach(btn => {
+            btn.style.backgroundColor = ''; // Reset background color of all buttons
+        });
+        const selectedButton = document.querySelectorAll('#options button')[index];
+        selectedButton.style.backgroundColor = '#008000'; // Set background color to green
+    }
+
+    // Function to submit an answer
+    function submitAnswer() {
+        const selectedOption = document.querySelector('#options button[style="background-color: rgb(0, 128, 0);"]');
+        if (selectedOption) {
+            const selectedAnswer = selectedOption.textContent;
+            const correctAnswer = quizQuestions[currentQuestion].correctAnswer;
+            if (selectedAnswer === correctAnswer) {
+                correctAnswers++;
+                selectedOption.style.backgroundColor = '#008000'; // Set background color to green
+            } else {
+                selectedOption.style.backgroundColor = '#ff0000'; // Set background color to red
+            }
+        }
+        currentQuestion++;
+        if (currentQuestion < totalQuestions) {
+            showQuestion();
         } else {
-            selectedOption.style.backgroundColor = '#ff0000'; // Set background color to red
+            const discountPercentage = correctAnswers; // Discount percentage is equal to the number of correct answers
+            const couponCode = generateCoupon(); // Generate a unique coupon code
+            alert(`Congratulations! You got ${correctAnswers} correct answers and received a ${discountPercentage}% discount. Your coupon code is: ${couponCode}`);
+            closeQuiz();
+            correctAnswers = 0; // Reset correct answers for future quizzes
+            currentQuestion = 0;
         }
     }
-    currentQuestion++;
-    if (currentQuestion < totalQuestions) {
-        showQuestion();
-    } else {
-        const discountPercentage = correctAnswers; // Discount percentage is equal to the number of correct answers
-        alert(`You got ${correctAnswers} correct answers! You receive a ${discountPercentage}% discount.`);
-        closeQuiz();
-        correctAnswers = 0; // Reset correct answers for future quizzes
-        currentQuestion = 0;
-    }
-}
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -539,22 +587,22 @@ function submitAnswer() {
                     <h4 class="text-white mb-3">Gallery</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img8.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img8.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img9.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img9.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img10.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img10.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img11.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img11.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img12.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img12.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="View/471project_images/img13.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="471project_images/img13.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -610,6 +658,7 @@ function submitAnswer() {
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+   
 </body>
 
 </html>
