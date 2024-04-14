@@ -5,23 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="pay.css">
+        <link rel="stylesheet" href="pay.css">
 
 </head>
 <body>
 
 <div class="container">
 
-    <form action="/submit-form" method="POST">
-        
+    <form action="">
+
         <div class="row">
+
             <div class="col">
 
                 <h3 class="title">billing address</h3>
 
                 <div class="inputBox">
                     <span>full name :</span>
-                    <input type="text" placeholder="Your name ">
+                    <input type="text" placeholder="john deo">
                 </div>
                 <div class="inputBox">
                     <span>email :</span>
@@ -33,13 +34,13 @@
                 </div>
                 <div class="inputBox">
                     <span>city :</span>
-                    <input type="text" placeholder="BARIDHARA  ">
+                    <input type="text" placeholder="mumbai">
                 </div>
 
                 <div class="flex">
                     <div class="inputBox">
                         <span>state :</span>
-                        <input type="text" placeholder="DHAKA">
+                        <input type="text" placeholder="india">
                     </div>
                     <div class="inputBox">
                         <span>zip code :</span>
@@ -79,16 +80,66 @@
                         <span>CVV :</span>
                         <input type="text" placeholder="1234">
                     </div>
-                </div>
+                
+                
+                
 
             </div>
     
         </div>
 
-     <input type="submit" value="proceed to checkout" class="submit-btn">
-   </form>
+        <input type="submit" value="proceed to checkout" class="submit-btn">
+
+    </form>
 
 </div>    
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentForm = document.getElementById('payment-form');
+        const submitButton = paymentForm.querySelector('button[type="submit"]');
+        
+        paymentForm.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+    
+            
+            submitButton.disabled = true;
+            
+            submitButton.innerText = 'Please wait...';
+    
+            
+            simulateFormSubmission().then(success => {
+                if (success) {
+                
+                    alert('Request processed!');
+            
+                } else {
+                    
+                    alert('Sorry, your request could not be processed.');
+                    
+                    submitButton.disabled = false;
+                    submitButton.innerText = 'Submit Payment';
+                }
+            });
+        });
+    });
+    
+    
+    function simulateFormSubmission() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                
+                if (Math.random() > 0.5) {
+                    resolve(true); 
+                } else {
+                    resolve(false); 
+                }
+            }, 2000); 
+        });
+    }
+    </script>
+    
+    </script>
     
 </body>
 </html>

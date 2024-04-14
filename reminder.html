@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Trips</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Upcoming Trips</h2>
+
+<ul id="tripList">
+    <li>Trip to Chittagong - when</li>
+    <li>Trip to Sylhet - you</li>
+    <li>Trip to Dhaka- think can go </li>
+</ul>
+
+<script>
+    // JavaScript
+    document.addEventListener('', function() 
+        {const tripList = document.getElementById('tripList');
+        const trips = tripList.getElementsByTagName('Trip Id');
+
+        for (let i = 0; i < trips.length; i++) {
+            const trip = trips[i];
+            const tripDate = new Date(trip.textContent.match(/\b(\w+\s\d+,\s\d+)\b/)[0]); 
+            
+            const timeDiff = tripDate.getTime() - new Date().getTime();
+
+            if (timeDiff > 0) {
+                setTimeout(function() {
+                    alert('Reminder: Your trip to ' + trip.textContent.trim() + ' is tomorrow!');
+                }, timeDiff - (24 * 60 * 60 * 1000)); }
+        }
+    });
+</script>
+
+</body>
+</html>

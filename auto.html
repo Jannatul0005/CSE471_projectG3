@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment and Reminder</title>
+    <style>
+        /* CSS styles */
+        .payment-form, #reminder {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+
+        #reminder {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-form">
+    <h2>Payment Form</h2>
+    <button id="payButton">Pay Now</button>
+</div>
+
+<div id="reminder" style="display:none;">
+    <p>Don't forget to review your purchase!</p>
+</div>
+
+<script>
+    
+    document.getElementById('payButton').addEventListener('click', function() {
+        
+        alert('Processing your payment...');
+        
+        
+        localStorage.setItem('paymentDone', 'true');
+        
+        
+        setTimeout(function() {
+            if (localStorage.getItem('paymentDone') === 'true') {
+                document.getElementById('reminder').style.display = 'block';
+                
+            }
+        }, 10000); // 10000 milliseconds = 10 seconds
+    });
+</script>
+
+</body>
+</html>
