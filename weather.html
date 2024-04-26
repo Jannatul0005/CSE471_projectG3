@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Calendar</title>
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Stylesheet -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    .calendar {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .date {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .weather-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .weather-conditions {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .weather-condition {
+      text-align: center;
+    }
+
+    .weather-condition img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .emoji {
+      font-size: 36px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calendar">
+    <div class="date" id="currentDate"></div>
+
+    <div class="weather-icon" id="weatherIcon">
+      <img src="470project_images/weather.png" alt="Weather Icon">
+    </div>
+
+    <div class="weather-conditions">
+      <div class="weather-condition">
+        <img src="470project_images/cloudy.png" alt="Cloudy">
+        <div>Cloudy</div>
+      </div>
+      <div class="weather-condition">
+        <img src="470project_images/sunny.png" alt="Sunny">
+        <div>Sunny</div>
+      </div>
+      <div class="weather-condition">
+        <img src="470project_images/rainy.png" alt="Rainy">
+        <div>Rainy</div>
+      </div>
+    </div>
+
+    <div class="emoji" id="weatherEmoji">
+      <!-- Weather emoji will be displayed here -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentDateElement = document.getElementById("currentDate");
+      const weatherIconElement = document.getElementById("weatherIcon");
+      const weatherEmojiElement = document.getElementById("weatherEmoji");
+
+    function updateDateAndWeather() {
+      // Fetch weather data from OpenWeatherMap API
+      fetch("weatherapi-com.p.rapidapi.com")
+        .then(response => response.json())
+        .then(data => {
+        // Update date
+        const currentDate = new Date();
+        const options = { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        const formattedDate = currentDate.toLocaleDateString('en-US', options);
+        currentDateElement.textContent = formattedDate;
+
+        // Update weather icon and emoji
+        const weatherCondition = data.weather[0].main.toLowerCase();
+        let weatherIconSrc = "";
+        let weatherEmoji = "";
+
+        switch (weatherCondition) {
+          case "clouds":
+            weatherIconSrc = "images/cloudy.png";
+            weatherEmoji = "☁️";
+            break;
+          case "clear":
+            weatherIconSrc = "images/sunny.png";
+            weatherEmoji = "☀️";
+            break;
+          case "rain":
+            weatherIconSrc = "images/rainy.png";
+            weatherEmoji = "🌧️";
+            break;
+          default:
+            weatherIconSrc = "images/unknown.png";
+            weatherEmoji = "❓";
+        }
+
+        weatherIconElement.innerHTML = `<img src="${weatherIconSrc}" alt="${weatherCondition}">`;
+        weatherEmojiElement.textContent = weatherEmoji;
+        })
+        .catch(error => {
+        console.error("Error fetching weather data:", error);
+        });
+    }
+
+    // Update date and weather every 5 minutes
+    setInterval(updateDateAndWeather, 5 * 60 * 1000);
+
+    // Initial update
+    updateDateAndWeather();
+    });
+  </script>
+</body>
+</html>

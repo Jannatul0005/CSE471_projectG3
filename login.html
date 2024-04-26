@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Login/Signup Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      text-align: center;
+      color: #4CAF50;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .error {
+      color: red;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/65fb06761ec1082f04d965e2/1hpe92ghj';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+      })();
+      </script>
+      <!--End of Tawk.to Script-->
+  
+<body>
+
+<div class="container" id="loginForm">
+  <h2>User Login</h2>
+  <p id="loginError" class="error"></p>
+  <input type="text" id="loginUsername" placeholder="Username">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p>Don't have an account? <a href="#" onclick="showSignupForm()">Sign Up (TravelBD)</a></p>
+</div>
+
+<div class="container" id="signupForm" style="display: none;">
+  <h2>Sign Up</h2>
+  <input type="text" id="signupUsername" placeholder="Username">
+  <input type="email" id="signupEmail" placeholder="Email">
+  <input type="password" id="signupPassword" placeholder="Password">
+  <input type="number" id="signupAge" placeholder="Age">
+  <button onclick="signup()">Sign Up</button>
+  <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+</div>
+
+<script>
+  function login() {
+    let username = document.getElementById('loginUsername').value;
+    let password = document.getElementById('loginPassword').value;
+
+    console.log('username', username)
+
+    // window.open('http://localhost:5000/hello')
+
+    
+
+    fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log(response)
+        alert('Login successful!Welcome to TravelBD');
+      
+      } else {
+        throw new Error('Login failed.');
+      }
+    })
+    .catch(error => {
+      alert('Login failed. Please try again.');
+    });
+
+
+  //   fetch('http://localhost:5000/hello')
+  // .then(response => {
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok');
+  //   }
+  //   return response.text(); // assuming the response is plain text
+  // })
+  // .then(data => {
+  //   // Handle the data received from the server
+  //   console.log('Response:', data);
+  // })
+  // .catch(error => {
+  //   // Handle any errors that occurred during the fetch
+  //   console.error('Fetch error:', error);
+  // });
+
+
+  
+  }
+
+  function signup() {
+    let username = document.getElementById('signupUsername').value;
+    let email = document.getElementById('signupEmail').value;
+    let password = document.getElementById('signupPassword').value;
+    let age = document.getElementById('signupAge').value;
+
+    fetch('http://localhost:5000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password, age }),
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('Sign up successful! Please login.Welcome to TravelBD');
+        showLoginForm();
+      } else {
+        throw new Error('Sign up failed.');
+      }
+    })
+    .catch(error => {
+      alert('Sign up failed. Please try again.');
+    });
+  }
+
+  function showSignupForm() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'block';
+  }
+
+  function showLoginForm() {
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+  }
+</script>
+<script src="Controllers/index.js"></script>
+<script src="main.js"></script>
+
+
+</body>
+</html>
+
+
+
